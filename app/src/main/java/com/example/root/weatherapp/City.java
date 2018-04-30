@@ -2,8 +2,8 @@ package com.example.root.weatherapp;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,7 +25,7 @@ public class City extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                getString = editText.getText().toString();
+                getString = editText.getText().toString().trim();
                 if (getString.equals("")) {
                     Toast.makeText(getApplicationContext(), "Please enter city name", Toast.LENGTH_SHORT).show();
                 } else {
