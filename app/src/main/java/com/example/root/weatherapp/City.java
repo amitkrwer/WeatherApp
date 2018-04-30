@@ -31,7 +31,6 @@ public class City extends AppCompatActivity {
                 } else {
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     intent.putExtra("name", getString);
-                    Toast.makeText(getApplicationContext(), getString, Toast.LENGTH_LONG).show();
                     startActivity(intent);
                 }
             }
