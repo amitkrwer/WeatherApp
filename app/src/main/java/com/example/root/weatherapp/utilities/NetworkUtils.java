@@ -1,7 +1,10 @@
 package com.example.root.weatherapp.utilities;
 
+import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
+
+import com.example.root.weatherapp.data.WeatherPreferences;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -46,7 +49,20 @@ public final class NetworkUtils {
     private static final String DAYS_PARAM = "cnt";
 
 
-    public static URL buildUrl(String locationQuery) {
+    public static URL getUrl(Context context) {
+        if (WeatherPreferences.isLocationLatLonAvailable(context)) {
+            double[] preferredCoordinates = WeatherPreferences.getLocationCoordinates(context);
+            double latitude = preferredCoordinates[0];
+            double longitude = preferredCoordinates[1];
+            return buildUrlWithLatitudeLongitude(latitude, longitude);
+        } else {
+            String locationQuery = WeatherPreferences.getPreferredWeatherLocation(context);
+            return buildUrlWithLocationQuery(locationQuery);
+        }
+    }
+
+
+    public static URL buildUrlWithLocationQuery(String locationQuery) {
         Uri builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
                 .appendQueryParameter(QUERY_PARAM, locationQuery)
                 .appendQueryParameter(APIID, key)
@@ -67,8 +83,25 @@ public final class NetworkUtils {
         return url;
     }
 
-    public static String buildUrl(Double lat, Double lon) {
-        return null;
+    public static URL buildUrlWithLatitudeLongitude(Double latitude, Double longitude) {
+
+        Uri weatherQueryUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
+                .appendQueryParameter(LAT_PARAM, String.valueOf(latitude))
+                .appendQueryParameter(LON_PARAM, String.valueOf(longitude))
+                .appendQueryParameter(APIID, key)
+                .appendQueryParameter(FORMAT_PARAM, format)
+                .appendQueryParameter(UNITS_PARAM, units)
+                .appendQueryParameter(DAYS_PARAM, Integer.toString(numDays))
+                .build();
+
+        try {
+            URL weatherQueryUrl = new URL(weatherQueryUri.toString());
+            Log.v(TAG, "URL: " + weatherQueryUrl);
+            return weatherQueryUrl;
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public static String getResponseFromHttpUrl(URL url) throws IOException {

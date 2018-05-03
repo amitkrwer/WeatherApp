@@ -73,18 +73,9 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapter.F
 
         PreferenceManager.getDefaultSharedPreferences(this)
                 .registerOnSharedPreferenceChangeListener(this);
-
-//        loadWeatherData();
     }
 
 
-    //    private void loadWeatherData() {
-//
-//        showWeatherDataView();
-//        String location = WeatherPreferences.getPreferredWeatherLocation(this);
-//        new FetchWeatherTask().execute(location);
-//    }
-//
     private void showWeatherDataView() {
         mErrorMessageDisplay.setVisibility(View.INVISIBLE);
         mRecyclerView.setVisibility(View.VISIBLE);
@@ -194,9 +185,8 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapter.F
             @Nullable
             @Override
             public String[] loadInBackground() {
-                String locationQuery = WeatherPreferences.getPreferredWeatherLocation(MainActivity.this);
 
-                URL weatherRequestUrl = NetworkUtils.buildUrl(locationQuery);
+                URL weatherRequestUrl = NetworkUtils.getUrl(MainActivity.this);
                 try {
                     String jsonWeatherResponse = NetworkUtils.getResponseFromHttpUrl(weatherRequestUrl);
                     String[] simpleJsonWeatherData = OpenWeatherJsonUtils
@@ -243,61 +233,4 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapter.F
         PREFERENCES_HAVE_BEEN_UPDATED = true;
 
     }
-
-
-
-
-
-
-
-
-
-
-//    private class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//            mLoadingIndicator.setVisibility(View.VISIBLE);
-//
-//        }
-//
-//        @Override
-//        protected String[] doInBackground(String... params) {
-//            if (params.length == 0) {
-//                return null;
-//            }
-//
-//            String location = params[0];
-//            URL weatherRequestUrl = NetworkUtils.buildUrl(location);
-//
-//            try {
-//                String jsonWeatherResponse = NetworkUtils
-//                        .getResponseFromHttpUrl(weatherRequestUrl);
-//
-//                String[] simpleJsonWeatherData = OpenWeatherJsonUtils
-//                        .getSimpleWeatherStringsFromJson(MainActivity.this, jsonWeatherResponse);
-//
-//                return simpleJsonWeatherData;
-//
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//                return null;
-//            }
-//        }
-//
-//
-//        @Override
-//        protected void onPostExecute(String[] weatherData) {
-//            mLoadingIndicator.setVisibility(View.INVISIBLE);
-//
-//            if (weatherData != null) {
-//                showWeatherDataView();
-//
-//                mForecastAdapter.setWeatherData(weatherData);
-//            } else {
-//                showErrorMessage();
-//
-//            }
-//        }
-//    }
 }

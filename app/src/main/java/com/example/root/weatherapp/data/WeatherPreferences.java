@@ -6,19 +6,23 @@ import android.support.v7.preference.PreferenceManager;
 
 import com.example.root.weatherapp.R;
 
+import java.util.prefs.Preferences;
+
 public class WeatherPreferences {
-    public static final String PREF_CITY_NAME = "city_name";
+//    public static final String PREF_CITY_NAME = "city_name";
 
     public static final String PREF_COORD_LAT = "coord_lat";
+
     public static final String PREF_COORD_LONG = "coord_long";
 
-    private static final String DEFAULT_WEATHER_LOCATION = "94043";
-    private static final double[] DEFAULT_WEATHER_COORDINATES = {37.4284, 122.0724};
 
-    private static final String DEFAULT_MAP_LOCATION =
-            "1600 Amphitheatre Parkway, Mountain View, CA 94043";
+    static public void setLocationDetails(Context context, double lat, double lon) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sp.edit();
 
-    static public void setLocationDetails(Context c, String cityName, double lat, double lon) {
+        editor.putLong(PREF_COORD_LAT, Double.doubleToRawLongBits(lat));
+        editor.putLong(PREF_COORD_LONG, Double.doubleToRawLongBits(lon));
+        editor.apply();
     }
 
 
@@ -27,8 +31,13 @@ public class WeatherPreferences {
     }
 
 
-    static public void resetLocationCoordinates(Context c) {
-        /** This will be implemented in a future lesson **/
+    static public void resetLocationCoordinates(Context context) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sp.edit();
+
+        editor.remove(PREF_COORD_LAT);
+        editor.remove(PREF_COORD_LONG);
+        editor.apply();
     }
 
 
@@ -59,22 +68,55 @@ public class WeatherPreferences {
 
 
     public static double[] getLocationCoordinates(Context context) {
-        return getDefaultWeatherCoordinates();
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+
+        double[] preferredCoordinates = new double[2];
+        preferredCoordinates[0] = Double
+                .longBitsToDouble(sp.getLong(PREF_COORD_LAT, Double.doubleToRawLongBits(0.0)));
+        preferredCoordinates[1] = Double
+                .longBitsToDouble(sp.getLong(PREF_COORD_LONG, Double.doubleToRawLongBits(0.0)));
+
+        return preferredCoordinates;
     }
 
 
     public static boolean isLocationLatLonAvailable(Context context) {
-        /** This will be implemented in a future lesson **/
-        return false;
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+
+        boolean spContainLatitude = sp.contains(PREF_COORD_LAT);
+        boolean spContainLongitude = sp.contains(PREF_COORD_LONG);
+
+        boolean spContainBothLatitudeAndLongitude = false;
+        if (spContainLatitude && spContainLongitude) {
+            spContainBothLatitudeAndLongitude = true;
+        }
+
+        return spContainBothLatitudeAndLongitude;
     }
 
-    private static String getDefaultWeatherLocation() {
-        /** This will be implemented in a future lesson **/
-        return DEFAULT_WEATHER_LOCATION;
+    public static long getLastNotificationTimeInMillis(Context context) {
+        String lastNotificationKey = context.getString(R.string.pref_last_notification);
+
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+
+        long lastNotificationTime = sp.getLong(lastNotificationKey, 0);
+
+        return lastNotificationTime;
     }
 
-    public static double[] getDefaultWeatherCoordinates() {
-        /** This will be implemented in a future lesson **/
-        return DEFAULT_WEATHER_COORDINATES;
+    public static long getEllapsedTimeSinceLastNotification(Context context) {
+        long lastNotificationTimeMillis =
+                WeatherPreferences.getLastNotificationTimeInMillis(context);
+        long timeSinceLastNotification = System.currentTimeMillis() - lastNotificationTimeMillis;
+        return timeSinceLastNotification;
     }
+
+    public static void saveLastNotificationTime(Context context, long timeOfNotification) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sp.edit();
+        String lastNotificationKey = context.getString(R.string.pref_last_notification);
+        editor.putLong(lastNotificationKey, timeOfNotification);
+        editor.apply();
+    }
+
 }
