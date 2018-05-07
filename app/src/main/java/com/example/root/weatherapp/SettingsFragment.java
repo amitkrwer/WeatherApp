@@ -10,6 +10,23 @@ import android.support.v7.preference.PreferenceScreen;
 
 public class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
+    @Override
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+
+        addPreferencesFromResource(R.xml.pref_general);
+
+        SharedPreferences sharedPreferences = getPreferenceScreen().getSharedPreferences();
+        PreferenceScreen prefScreen = getPreferenceScreen();
+        int count = prefScreen.getPreferenceCount();
+        for (int i = 0; i < count; i++) {
+            Preference p = prefScreen.getPreference(i);
+            if (!(p instanceof CheckBoxPreference)) {
+                String value = sharedPreferences.getString(p.getKey(), "");
+                setPreferenceSummary(p, value);
+            }
+        }
+    }
+
 
     private void setPreferenceSummary(Preference preference, Object value) {
         String stringValue = value.toString();
@@ -29,7 +46,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
     @Override
     public void onStart() {
         super.onStart();
-        /* Register the preference change listener */
         getPreferenceScreen().getSharedPreferences()
                 .registerOnSharedPreferenceChangeListener(this);
     }
@@ -38,7 +54,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
     @Override
     public void onStop() {
         super.onStop();
-        /* Unregister the preference change listener */
         getPreferenceScreen().getSharedPreferences()
                 .unregisterOnSharedPreferenceChangeListener(this);
     }
@@ -53,23 +68,5 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             }
         }
 
-    }
-
-    @Override
-    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-
-        addPreferencesFromResource(R.xml.pref_general);
-
-
-        SharedPreferences sharedPreferences = getPreferenceScreen().getSharedPreferences();
-        PreferenceScreen prefScreen = getPreferenceScreen();
-        int count = prefScreen.getPreferenceCount();
-        for (int i = 0; i < count; i++) {
-            Preference p = prefScreen.getPreference(i);
-            if (!(p instanceof CheckBoxPreference)) {
-                String value = sharedPreferences.getString(p.getKey(), "");
-                setPreferenceSummary(p, value);
-            }
-        }
     }
 }

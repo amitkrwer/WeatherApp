@@ -82,6 +82,14 @@ public final class WeatherDateUtils {
         return DateUtils.formatDateTime(context, timeInMillis, flags);
     }
 
+    public static boolean isDateNormalized(long millisSinceEpoch) {
+        boolean isDateNormalized = false;
+        if (millisSinceEpoch % DAY_IN_MILLIS == 0) {
+            isDateNormalized = true;
+        }
+
+        return isDateNormalized;
+    }
 
     private static String getDayName(Context context, long dateInMillis) {
 

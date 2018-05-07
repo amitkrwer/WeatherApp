@@ -9,7 +9,6 @@ import com.example.root.weatherapp.R;
 import java.util.prefs.Preferences;
 
 public class WeatherPreferences {
-//    public static final String PREF_CITY_NAME = "city_name";
 
     public static final String PREF_COORD_LAT = "coord_lat";
 

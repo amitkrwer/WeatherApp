@@ -104,15 +104,16 @@ public final class OpenWeatherJsonUtils {
     }
 
     public static ContentValues[] getFullWeatherDataFromJson(Context context, String forecastJsonStr) throws JSONException {
+
         JSONObject forecastJson = new JSONObject(forecastJsonStr);
 
         if (forecastJson.has(OWM_MESSAGE_CODE)) {
             int errorCode = forecastJson.getInt(OWM_MESSAGE_CODE);
 
             switch (errorCode) {
-                case HttpURLConnection.HTTP_OK:
+                case HttpsURLConnection.HTTP_OK:
                     break;
-                case HttpURLConnection.HTTP_NOT_FOUND:
+                case HttpsURLConnection.HTTP_NOT_FOUND:
                     /* Location invalid */
                     return null;
                 default:
@@ -152,7 +153,6 @@ public final class OpenWeatherJsonUtils {
 
             int weatherId;
 
-            /* Get the JSON object representing the day */
             JSONObject dayForecast = jsonWeatherArray.getJSONObject(i);
 
             /*

@@ -27,7 +27,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name=".SettingsActivity"/>
+        <activity android:name=".SettingsActivity" />
+
+        <provider
+            android:name=".data.WeatherProvider"
+            android:authorities="@string/content_authority"
+            android:exported="false" />
     </application>
 
 </manifest>

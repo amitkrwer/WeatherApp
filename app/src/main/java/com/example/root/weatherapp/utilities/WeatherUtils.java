@@ -10,12 +10,11 @@ public final class WeatherUtils {
     private static final String LOG_TAG = WeatherUtils.class.getSimpleName();
 
     private static double celsiusToFahrenheit(double temperatureInCelsius) {
-        double temperatureInFahrenheit = (temperatureInCelsius * 1.8) + 32;
-        return temperatureInFahrenheit;
+        return (temperatureInCelsius * 1.8) + 32;
     }
 
 
-    public static String formatTemperature(Context context, double temperature) {
+    private static String formatTemperature(Context context, double temperature) {
         int temperatureFormatResourceId = R.string.format_temperature_celsius;
 
         if (!WeatherPreferences.isMetric(context)) {

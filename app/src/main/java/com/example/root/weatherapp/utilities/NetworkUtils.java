@@ -35,7 +35,7 @@ public final class NetworkUtils {
     private static final String key = "18829046186f19a1ef38ad0a634effab";
 
     private static final String units = "metric";
-    private static final int numDays = 14;
+    private static final int numDays = 17;
 
     private static final String QUERY_PARAM = "q";
 
