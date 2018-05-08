@@ -25,11 +25,6 @@ public class WeatherPreferences {
     }
 
 
-    static public void setLocation(Context c, String locationSetting, double lat, double lon) {
-        /** This will be implemented in a future lesson **/
-    }
-
-
     static public void resetLocationCoordinates(Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = sp.edit();

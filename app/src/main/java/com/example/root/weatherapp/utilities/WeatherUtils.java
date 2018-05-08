@@ -14,7 +14,7 @@ public final class WeatherUtils {
     }
 
 
-    private static String formatTemperature(Context context, double temperature) {
+    public static String formatTemperature(Context context, double temperature) {
         int temperatureFormatResourceId = R.string.format_temperature_celsius;
 
         if (!WeatherPreferences.isMetric(context)) {

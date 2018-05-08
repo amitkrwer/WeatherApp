@@ -1,5 +1,6 @@
 package com.example.root.weatherapp.data;
 
+import android.annotation.TargetApi;
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.UriMatcher;
@@ -104,6 +105,7 @@ public class WeatherProvider extends ContentProvider {
         cursor.setNotificationUri(getContext().getContentResolver(), uri);
         return cursor;
     }
+
 
     @Nullable
     @Override

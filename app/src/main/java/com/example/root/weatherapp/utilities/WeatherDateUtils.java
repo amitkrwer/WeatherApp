@@ -17,6 +17,8 @@ public final class WeatherDateUtils {
     public static final long DAY_IN_MILLIS = HOUR_IN_MILLIS * 24;
 
 
+
+
     public static long getDayNumber(long date) {
         TimeZone tz = TimeZone.getDefault();
         long gmtOffset = tz.getOffset(date);

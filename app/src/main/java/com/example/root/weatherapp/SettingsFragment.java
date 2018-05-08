@@ -1,5 +1,6 @@
 package com.example.root.weatherapp;
 
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.preference.CheckBoxPreference;
@@ -7,6 +8,10 @@ import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceScreen;
+
+import com.example.root.weatherapp.data.WeatherContract;
+import com.example.root.weatherapp.data.WeatherPreferences;
+import com.example.root.weatherapp.sync.SyncUtils;
 
 public class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -61,6 +66,13 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        Activity activity = getActivity();
+        if (key.equals(getString(R.string.pref_location_key))) {
+            WeatherPreferences.resetLocationCoordinates(activity);
+            SyncUtils.startImmediateSync(activity);
+        } else if (key.equals(getString(R.string.pref_units_key))) {
+            activity.getContentResolver().notifyChange(WeatherContract.WeatherEntry.CONTENT_URI, null);
+        }
         Preference preference = findPreference(key);
         if (null != preference) {
             if (!(preference instanceof CheckBoxPreference)) {

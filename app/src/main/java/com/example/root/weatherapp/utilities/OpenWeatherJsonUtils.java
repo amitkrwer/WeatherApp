@@ -45,65 +45,65 @@ public final class OpenWeatherJsonUtils {
     private static final String OWM_MESSAGE_CODE = "cod";
 
 
-    public static String[] getSimpleWeatherStringsFromJson(Context context, String forecastJsonStr)
-            throws JSONException {
+//    public static String[] getSimpleWeatherStringsFromJson(Context context, String forecastJsonStr)
+//            throws JSONException {
+//
+//
+//        final String OWM_DESCRIPTION = "main";
+//
+//
+//        String[] parsedWeatherData;
+//
+//        JSONObject forecastJson = new JSONObject(forecastJsonStr);
+//
+//        if (forecastJson.has(OWM_MESSAGE_CODE)) {
+//            int errorCode = forecastJson.getInt(OWM_MESSAGE_CODE);
+//
+//            switch (errorCode) {
+//                case HttpsURLConnection.HTTP_OK:
+//                    break;
+//                case HttpsURLConnection.HTTP_NOT_FOUND:
+//                    return null;
+//                default:
+//                    return null;
+//            }
+//        }
+//
+//        JSONArray weatherArray = forecastJson.getJSONArray(OWM_LIST);
+//
+//        parsedWeatherData = new String[weatherArray.length()];
+//
+//        long localDate = System.currentTimeMillis();
+//        long utcDate = WeatherDateUtils.getUTCDateFromLocal(localDate);
+//        long startDay = WeatherDateUtils.normalizeDate(utcDate);
+//
+//        for (int i = 0; i < weatherArray.length(); i++) {
+//            String date;
+//            String highAndLow;
+//            long dateTimeMillis;
+//            double high;
+//            double low;
+//            String description;
+//
+//            JSONObject dayForecast = weatherArray.getJSONObject(i);
+//            dateTimeMillis = startDay + WeatherDateUtils.DAY_IN_MILLIS * i;
+//            date = WeatherDateUtils.getFriendlyDateString(context, dateTimeMillis, false);
+//            JSONObject weatherObject =
+//                    dayForecast.getJSONArray(OWM_WEATHER).getJSONObject(0);
+//            description = weatherObject.getString(OWM_DESCRIPTION);
+//
+//            JSONObject temperatureObject = dayForecast.getJSONObject(OWM_TEMPERATURE);
+//            high = temperatureObject.getDouble(OWM_MAX);
+//            low = temperatureObject.getDouble(OWM_MIN);
+//            highAndLow = WeatherUtils.formatHighLows(context, high, low);
+//
+//            parsedWeatherData[i] = date + " - " + description + " - " + highAndLow;
+//        }
 
+//        return parsedWeatherData;
+//    }
 
-        final String OWM_DESCRIPTION = "main";
-
-
-        String[] parsedWeatherData;
-
-        JSONObject forecastJson = new JSONObject(forecastJsonStr);
-
-        if (forecastJson.has(OWM_MESSAGE_CODE)) {
-            int errorCode = forecastJson.getInt(OWM_MESSAGE_CODE);
-
-            switch (errorCode) {
-                case HttpsURLConnection.HTTP_OK:
-                    break;
-                case HttpsURLConnection.HTTP_NOT_FOUND:
-                    return null;
-                default:
-                    return null;
-            }
-        }
-
-        JSONArray weatherArray = forecastJson.getJSONArray(OWM_LIST);
-
-        parsedWeatherData = new String[weatherArray.length()];
-
-        long localDate = System.currentTimeMillis();
-        long utcDate = WeatherDateUtils.getUTCDateFromLocal(localDate);
-        long startDay = WeatherDateUtils.normalizeDate(utcDate);
-
-        for (int i = 0; i < weatherArray.length(); i++) {
-            String date;
-            String highAndLow;
-            long dateTimeMillis;
-            double high;
-            double low;
-            String description;
-
-            JSONObject dayForecast = weatherArray.getJSONObject(i);
-            dateTimeMillis = startDay + WeatherDateUtils.DAY_IN_MILLIS * i;
-            date = WeatherDateUtils.getFriendlyDateString(context, dateTimeMillis, false);
-            JSONObject weatherObject =
-                    dayForecast.getJSONArray(OWM_WEATHER).getJSONObject(0);
-            description = weatherObject.getString(OWM_DESCRIPTION);
-
-            JSONObject temperatureObject = dayForecast.getJSONObject(OWM_TEMPERATURE);
-            high = temperatureObject.getDouble(OWM_MAX);
-            low = temperatureObject.getDouble(OWM_MIN);
-            highAndLow = WeatherUtils.formatHighLows(context, high, low);
-
-            parsedWeatherData[i] = date + " - " + description + " - " + highAndLow;
-        }
-
-        return parsedWeatherData;
-    }
-
-    public static ContentValues[] getFullWeatherDataFromJson(Context context, String forecastJsonStr) throws JSONException {
+    public static ContentValues[] getWeatherContentValuesFromJson(Context context, String forecastJsonStr) throws JSONException {
 
         JSONObject forecastJson = new JSONObject(forecastJsonStr);
 

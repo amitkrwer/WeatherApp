@@ -205,8 +205,6 @@
 
 
 
-    <!-- Used by NotificationUtils -->
-
     <!-- The format of the notification we show when the weather is updated -->
     <string name="format_notification">
         Forecast:<xliff:g id="condition">%1$s</xliff:g> -
