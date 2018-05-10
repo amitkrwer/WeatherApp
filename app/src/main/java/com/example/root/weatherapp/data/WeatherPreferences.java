@@ -6,8 +6,6 @@ import android.support.v7.preference.PreferenceManager;
 
 import com.example.root.weatherapp.R;
 
-import java.util.prefs.Preferences;
-
 public class WeatherPreferences {
 
     public static final String PREF_COORD_LAT = "coord_lat";
@@ -86,6 +84,20 @@ public class WeatherPreferences {
         }
 
         return spContainBothLatitudeAndLongitude;
+    }
+
+    public static boolean areNotificationsEnabled(Context context) {
+        String displayNotificationsKey = context.getString(R.string.pref_enable_notifications_key);
+
+        boolean shouldDisplayNotificationsByDefault = context
+                .getResources()
+                .getBoolean(R.bool.show_notifications_by_default);
+
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+
+        boolean shouldDisplayNotifications = sp
+                .getBoolean(displayNotificationsKey, shouldDisplayNotificationsByDefault);
+        return shouldDisplayNotifications;
     }
 
     public static long getLastNotificationTimeInMillis(Context context) {
